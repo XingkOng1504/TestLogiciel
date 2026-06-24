@@ -1,21 +1,21 @@
 package com.example.demo.web;
 
-import com.example.demo.data.Voiture;
-import com.example.demo.service.Echantillon;
-import com.example.demo.service.StatistiqueImpl;
 import org.junit.jupiter.api.Test;
-
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.example.demo.service.Echantillon;
+import com.example.demo.service.StatistiqueImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,6 +51,15 @@ class WebTests {
                 .andExpect(jsonPath("$.prixMoyen").value(2000));
 
     }
+
+    @Test
+    void testAjouterVoiture() throws Exception {
+        mockMvc.perform(post("/voiture")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"marque\":\"Ferrari\",\"prix\":3000}"))
+                .andExpect(status().isOk());
+    }
+
 
   
 
